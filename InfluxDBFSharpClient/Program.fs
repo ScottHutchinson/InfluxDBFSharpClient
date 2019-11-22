@@ -1,7 +1,7 @@
 ﻿open AdysTech.InfluxDB.Client.Net
-open System.Collections.Concurrent
+//open System.Collections.Concurrent
 
-let events = ConcurrentQueue<IInfluxDatapoint>()
+//let events = ConcurrentQueue<IInfluxDatapoint>()
 let event1 = InfluxDatapoint<'T>()
 let field1 = InfluxValueField(42.99) // :> IComparable<InfluxValueField>
 do event1.Fields.["amountRequestedUSD"] <- field1 // //Error	FS0001	The type 'InfluxValueField' is not compatible with the type 'IComparable<InfluxValueField>'.
