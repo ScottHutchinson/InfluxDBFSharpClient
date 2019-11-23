@@ -1,16 +1,23 @@
 ﻿open AdysTech.InfluxDB.Client.Net
-//open System.Collections.Concurrent
+open System.Collections.Concurrent
 
-//let events = ConcurrentQueue<IInfluxDatapoint>()
-let event1 = InfluxDatapoint<'T>()
-let field1 = InfluxValueField(42.99) // :> IComparable<InfluxValueField>
-let addFields () = 
-    event1.Fields.Add("amountRequestedUSD", field1) // //Error	FS0001	The type 'InfluxValueField' is not compatible with the type 'IComparable<InfluxValueField>'.
-//let event2 = InfluxDatapoint<double>()
-//do events.Enqueue(event1)
-//do events.Enqueue(event2)
+let events = ConcurrentQueue<IInfluxDatapoint>()
+let event1 = InfluxDatapoint<IInfluxValueField>()
+let field1a = InfluxValueField(42.99)
+let field1b = InfluxValueField("a message")
+let event2 = InfluxDatapoint<IInfluxValueField>()
+let field2a = InfluxValueField(0.05)
+
+let addEvents () = 
+    event1.Fields.Add("amountRequestedUSD", field1a)
+    event1.Fields.Add("message", field1b)
+    events.Enqueue(event1)
+    event2.Fields.Add("someDouble", field2a)
+    events.Enqueue(event2)
 
 [<EntryPoint>]
 let main argv =
     printfn "Hello World from F#!"
     0 // return an integer exit code
+
+// <'T when 'T :> IComparable and 'T :> IComparable<'T>>
